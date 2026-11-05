@@ -116,8 +116,13 @@ function readDocumentTheme(): SunMoonTheme {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
+const THEME_COLORS: Record<SunMoonTheme, string> = { light: "#f3eee5", dark: "#14120f" }
+
 function applyDocumentTheme(theme: SunMoonTheme, duration: number) {
-  if (duration > 0 && !prefersReducedMotion()) {
+  // Sur écran tactile, animer toutes les couleurs de la page en même temps (avec le canvas WebGL
+  // derrière) fait ramer et peut laisser le thème à moitié appliqué : on bascule net.
+  const coarse = window.matchMedia("(pointer: coarse)").matches
+  if (duration > 0 && !coarse && !prefersReducedMotion()) {
     const style =
       document.getElementById(PAGE_FADE_STYLE_ID) ??
       document.head.appendChild(Object.assign(document.createElement("style"), { id: PAGE_FADE_STYLE_ID }));
@@ -126,6 +131,12 @@ function applyDocumentTheme(theme: SunMoonTheme, duration: number) {
     pageFadeCleanup = window.setTimeout(() => style.remove(), duration + 100);
   }
   document.documentElement.classList.toggle("dark", theme === "dark");
+  document.documentElement.style.colorScheme = theme;
+  // La barre du navigateur mobile suit le thème choisi, pas seulement celui du système.
+  document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((meta) => {
+    meta.content = THEME_COLORS[theme];
+    meta.removeAttribute("media");
+  });
 }
 
 function swapBodies(

@@ -43,7 +43,7 @@ const IconGrid = React.forwardRef<HTMLUListElement, IconGridProps>(({ items, cla
       initial={reduced ? "visible" : "hidden"}
       whileInView="visible"
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      className={cn("flex flex-wrap gap-x-4 gap-y-14 sm:gap-x-5", className)}
+      className={cn("grid grid-cols-3 gap-x-2 gap-y-8 sm:flex sm:flex-wrap sm:gap-x-5 sm:gap-y-14", className)}
     >
       {items.map((it) => (
         <motion.li key={it.id} variants={item} className="group relative">
@@ -53,7 +53,7 @@ const IconGrid = React.forwardRef<HTMLUListElement, IconGridProps>(({ items, cla
             aria-label={it.name}
             style={{ "--tint": it.tint } as React.CSSProperties}
             className={cn(
-              "relative flex size-[4.75rem] items-center justify-center overflow-hidden rounded-full bg-background ring-1 ring-border",
+              "relative mx-auto flex size-[4.75rem] items-center justify-center overflow-hidden rounded-full bg-background ring-1 ring-border",
               "transition-[transform,box-shadow] duration-300 ease-out motion-reduce:transition-none",
               "group-hover:-translate-y-1 group-hover:shadow-lg group-hover:ring-2 group-hover:ring-(--tint)",
               "group-focus-within:-translate-y-1 group-focus-within:shadow-lg group-focus-within:ring-2 group-focus-within:ring-(--tint)",
@@ -77,7 +77,7 @@ const IconGrid = React.forwardRef<HTMLUListElement, IconGridProps>(({ items, cla
             aria-hidden
             style={{ backgroundColor: it.tint, color: it.ink }}
             className={cn(
-              "pointer-events-none absolute left-1/2 top-full z-20 mt-2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium",
+              "icon-name pointer-events-none absolute left-1/2 top-full z-20 mt-2 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium",
               "-translate-y-1 opacity-0 transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none",
               "group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100",
               "[@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100",

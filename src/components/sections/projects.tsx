@@ -49,9 +49,9 @@ export function Projects() {
           </Reveal>
         </div>
 
-        <ul className="mt-24 grid justify-items-center gap-x-6 gap-y-24 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-10">
+        <ul className="mt-12 grid justify-items-center gap-x-6 gap-y-10 md:mt-24 md:gap-y-24 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-10">
           {categories.map((cat, i) => (
-            <li key={cat.id} className={`flex flex-col items-center pt-24 ${STAGGER[i % STAGGER.length]}`}>
+            <li key={cat.id} className={`flex flex-col items-center pt-14 md:pt-24 ${STAGGER[i % STAGGER.length]}`}>
               <GlassFolder
                 label={cat.label}
                 meta={`${cat.projects.length} ${cat.projects.length > 1 ? "projets" : "projet"}`}

@@ -272,7 +272,7 @@ export function Experience() {
           <div
             ref={stage}
             className={cn(
-              "relative min-h-0 w-full flex-1",
+              "relative mt-8 min-h-0 w-full flex-1 md:mt-0",
               reduced && "min-h-[70svh]",
             )}
           >

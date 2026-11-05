@@ -145,7 +145,7 @@
 .dark .logo-fill > .logo-mono.logo-inv {
   filter: invert(1) grayscale(1) contrast(0.6);
 }
-.logo-fill > .logo-color.invert {
+.dark .logo-fill > .logo-color.invert {
   filter: invert(1);
 }
 .logo-fill > .logo-color {
@@ -164,6 +164,16 @@
     transition: none;
   }
 }
+/* Écrans tactiles : pas de survol, donc les logos gardent toujours leurs couleurs de marque. */
+@media (hover: none) {
+  .logo-fill > .logo-color {
+    clip-path: inset(0 0 0 0);
+    transition: none;
+  }
+  .logo-fill > .logo-mono {
+    visibility: hidden;
+  }
+}
 
 /* Section contact : fond sombre bleu-violet dans les deux thèmes. Les variables sont redéfinies
    localement, donc `bg-foreground`, `text-background`, etc. s'y adaptent sans changer le composant. */
@@ -173,4 +183,23 @@
   --accent: #a78bfa;
   --accent-foreground: #120d36;
   background-image: linear-gradient(135deg, #1a1550 0%, #2a1d7a 55%, #14307a 100%);
+}
+
+/* Boîte à outils : sans survol (tactile) ou sur petit écran, le nom reste affiché sous l'icône,
+   dans le flux, pour ne jamais déborder de la carte ni chevaucher l'icône voisine. */
+@media (hover: none), (max-width: 639px) {
+  .icon-name {
+    position: static;
+    translate: none;
+    opacity: 1;
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0.5rem auto 0;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    text-align: center;
+    white-space: normal;
+  }
 }

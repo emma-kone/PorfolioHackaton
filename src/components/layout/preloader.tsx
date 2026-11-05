@@ -6,12 +6,12 @@ import { useMediaQuery } from "@/hooks/use-media-query"
 import { site } from "@/data/site"
 
 /** Durée du geste qui trace le logo (s). */
-const DRAW_S = 4.8
+const DRAW_S = 3.4
 /** Fondu vers le logo complet (s), puis pause avant d'ouvrir le site (s). */
 const FADE_S = 0.6
 const HOLD_S = 0.35
 /** Au-delà du geste, on n'attend jamais le chargement réel plus longtemps que ça (s). */
-const MAX_WAIT_S = 4
+const MAX_WAIT_S = 2
 
 const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2)
 

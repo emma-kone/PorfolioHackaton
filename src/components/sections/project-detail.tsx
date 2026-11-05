@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
 import { motion, useReducedMotion } from "framer-motion"
 import { ArrowUpRight, X } from "lucide-react"
 import ArrowFillButton from "@/components/ui/arrow-fill-button"
@@ -40,7 +41,9 @@ export function ProjectDetail({ project, category, onClose }: { project: Project
     }
   }, [onClose])
 
-  return (
+  // Rendu directement dans <body> : `main` crée son propre empilement (z-10), l'en-tête fixe
+  // passerait sinon par-dessus la fiche et cacherait le bouton « Fermer » sur mobile.
+  return createPortal(
     <div className="fixed inset-0 z-[70]">
       <motion.div
         className="absolute inset-0 bg-black/55"
@@ -173,6 +176,7 @@ export function ProjectDetail({ project, category, onClose }: { project: Project
           </div>
         </div>
       </motion.div>
-    </div>
+    </div>,
+    document.body,
   )
 }

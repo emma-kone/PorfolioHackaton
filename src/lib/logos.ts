@@ -32,7 +32,9 @@ export type LogoDef = Common &
     | { source: "path"; path: string; gradient?: { stops: [string, string][] } }
   )
 
-const devicon = import.meta.glob("/node_modules/devicon/icons/*/*-original.svg", {
+// Uniquement les logos utilisés : importer toute la bibliothèque Devicon (des centaines de SVG)
+// bloquait le préchargement, surtout sur mobile.
+const devicon = import.meta.glob("/node_modules/devicon/icons/{github,linkedin,html5,css3,javascript,typescript,react,nextjs,vuejs,tailwindcss,figma,canva,cursor,antigravity}/*-original.svg", {
   eager: true,
   query: "?url",
   import: "default",

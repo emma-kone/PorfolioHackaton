@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Direction artistique : « papier & encre ».
+  Un fond papier chaud, une encre quasi noire, un seul accent violet.
+  Toutes les couleurs passent par ces variables — le mode sombre ne fait
+  que les remplacer.
+*/
+:root {
+  --background: #f3eee5;
+  --foreground: #1c1a17;
+  --card: #eae4d8;
+  --muted: #e2dbcb;
+  --muted-foreground: #615b51;
+  --border: #cdc4b1;
+  --accent: #6d3fe0;
+  --accent-foreground: #f7f3ff;
+  --ring: #6d3fe0;
+}
+
+.dark {
+  --background: #14120f;
+  --foreground: #f1ebdf;
+  --card: #1d1a16;
+  --muted: #26221c;
+  --muted-foreground: #a39c8e;
+  --border: #38332b;
+  --accent: #a78bfa;
+  --accent-foreground: #14120f;
+  --ring: #a78bfa;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-sans: "Bricolage Grotesque", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Étiquette technique : petite capitale espacée, utilisée pour les index et métadonnées. */
+  .label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .display {
+    font-family: var(--font-display);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+  .wrap {
+    width: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+  /* Lien souligné qui se dessine au survol. */
+  .link-draw {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+    transition: background-size 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .link-draw:hover,
+  .link-draw:focus-visible {
+    background-size: 0% 1px;
+    background-position: 100% 100%;
+  }
+  .tap {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Logos : gris au repos ; la couleur de marque monte depuis le bas
+   au survol, en même temps que le fond du rond (même durée que le calque de remplissage). */
+.logo-fill {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  color: var(--foreground);
+}
+.logo-fill > .logo-mono,
+.logo-fill > .logo-color {
+  display: block;
+  height: 100%;
+  width: 100%;
+  max-width: none;
+}
+.logo-fill.logo-auto > .logo-mono {
+  width: auto;
+}
+.logo-fill > .logo-color {
+  position: absolute;
+  inset: 0;
+  /* Fin liseré blanc : le logo reste lisible sur un remplissage plein de sa propre couleur. */
+  filter: drop-shadow(0 0 0.6px #fff) drop-shadow(0 0 0.6px #fff);
+}
+/* Gris : on garde les détails internes du logo (lettres, symboles) en passant par le niveau de gris,
+   avec un contraste réduit pour que le fond comme le symbole restent lisibles sur clair et sombre. */
+.logo-fill > .logo-mono {
+  filter: grayscale(1) contrast(0.6);
+}
+.dark .logo-fill > .logo-mono.logo-inv {
+  filter: invert(1) grayscale(1) contrast(0.6);
+}
+.logo-fill > .logo-color.invert {
+  filter: invert(1);
+}
+.logo-fill > .logo-color {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.5s ease-out;
+}
+.logo-fill:hover > .logo-color,
+.group:hover .logo-fill > .logo-color,
+.group:focus-within .logo-fill > .logo-color,
+.group\/link:hover .logo-fill > .logo-color,
+.group\/link:focus-visible .logo-fill > .logo-color {
+  clip-path: inset(0 0 0 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-fill > .logo-color {
+    transition: none;
+  }
+}
+
+/* Section contact : fond sombre bleu-violet dans les deux thèmes. Les variables sont redéfinies
+   localement, donc `bg-foreground`, `text-background`, etc. s'y adaptent sans changer le composant. */
+.contact-theme {
+  --background: #e8e6ff;
+  --foreground: #1a1550;
+  --accent: #a78bfa;
+  --accent-foreground: #120d36;
+  background-image: linear-gradient(135deg, #1a1550 0%, #2a1d7a 55%, #14307a 100%);
+}

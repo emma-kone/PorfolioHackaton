@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { AnimatePresence } from "framer-motion"
+import { Butterflies } from "@/components/ui/butterflies"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
 import { Preloader } from "@/components/layout/preloader"
@@ -42,8 +43,9 @@ export default function App() {
       >
         Aller au contenu
       </a>
+      {loaded && <Butterflies />}
       <Header />
-      <main id="contenu">
+      <main id="contenu" className="relative z-10">
         <Hero ready={loaded} />
         <About />
         <Experience />
@@ -52,7 +54,9 @@ export default function App() {
         <Skills />
         <Contact />
       </main>
-      <Footer />
+      <div className="relative z-10">
+        <Footer />
+      </div>
       <AnimatePresence>{!loaded && <Preloader key="preloader" onComplete={onComplete} />}</AnimatePresence>
     </>
   )

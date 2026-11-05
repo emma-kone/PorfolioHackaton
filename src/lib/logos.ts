@@ -82,7 +82,7 @@ export const logos = {
     file: dev("figma"),
   },
   canva: { id: "canva", name: "Canva", category: "software", color: "#00C4CC", href: "https://www.canva.com", source: "devicon", file: dev("canva") },
-  cursor: { id: "cursor", name: "Cursor", category: "tool", color: "#1A1A1A", href: "https://cursor.com", source: "devicon", file: dev("cursor") },
+  cursor: { id: "cursor", name: "Cursor", category: "tool", color: "#1A1A1A", href: "https://cursor.com", invertOnDark: true, source: "devicon", file: dev("cursor") },
   antigravity: { id: "antigravity", name: "Antigravity", category: "tool", color: "#4285F4", href: "https://antigravity.google", source: "devicon", file: dev("antigravity") },
 } satisfies Record<string, LogoDef>
 

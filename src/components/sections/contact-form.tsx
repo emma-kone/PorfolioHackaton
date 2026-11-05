@@ -11,7 +11,8 @@ import { cn } from "@/lib/utils";
  * /emailjs/templates.html. Variables à définir dans .env (voir .env.example).
  * L'envoi est automatique : aucune application mail ne s'ouvre, la personne voit une confirmation.
  */
-const SERVICE_ID = "service_aetdzq2";
+const SERVICE_ID =
+  (import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined) || "service_aetdzq2";
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as
   string | undefined;
 const CONTACT_TEMPLATE = import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE as

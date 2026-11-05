@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent, type MouseEvent } from "react";
+import { motion } from "framer-motion";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 import ArrowFillButton from "@/components/ui/arrow-fill-button";
-import { site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 /**
@@ -8,7 +9,7 @@ import { cn } from "@/lib/utils";
  * Deux e-mails partent à chaque envoi : le message pour toi (modèle « Contact us ») puis l'accusé
  * de réception pour la personne (modèle « Réponse automatique »). Les modèles sont dans
  * /emailjs/templates.html. Variables à définir dans .env (voir .env.example).
- * Sans configuration, le formulaire ouvre le client mail (mailto:) pré-rempli.
+ * L'envoi est automatique : aucune application mail ne s'ouvre, la personne voit une confirmation.
  */
 const SERVICE_ID = "service_aetdzq2";
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as
@@ -35,7 +36,7 @@ async function sendTemplate(
   if (!res.ok) throw new Error(await res.text());
 }
 
-type Status = "idle" | "sending" | "sent" | "error" | "mailto";
+type Status = "idle" | "sending" | "sent" | "error";
 
 const field =
   "w-full border-0 rounded-2xl border-0 bg-background/10 px-4 py-3 text-base text-background placeholder:text-background/45 focus:bg-background/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent";
@@ -59,11 +60,8 @@ export function ContactForm() {
     const message = String(data.get("message") ?? "");
 
     if (!PUBLIC_KEY || !CONTACT_TEMPLATE) {
-      const body = `${message}
-
-— ${name} (${email})`;
-      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(`Message de ${name} via le portfolio`)}&body=${encodeURIComponent(body)}`;
-      setStatus("mailto");
+      console.error("EmailJS non configuré : définir VITE_EMAILJS_PUBLIC_KEY et VITE_EMAILJS_CONTACT_TEMPLATE.");
+      setStatus("error");
       return;
     }
 
@@ -85,10 +83,37 @@ export function ContactForm() {
         await sendTemplate(REPLY_TEMPLATE, params).catch(() => undefined);
       form.reset();
       setStatus("sent");
-    } catch {
+    } catch (err) {
+      console.error("Échec de l'envoi EmailJS :", err);
       setStatus("error");
     }
   };
+
+  if (status === "sent") {
+    return (
+      <motion.div
+        role="status"
+        aria-live="polite"
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+        className="flex flex-col items-start gap-4 rounded-3xl bg-background/10 p-8 text-background"
+      >
+        <CheckCircle2 className="size-12 text-accent" aria-hidden />
+        <p className="display text-3xl">Message envoyé !</p>
+        <p className="text-background/80">
+          Merci, j'ai bien reçu ton message. Je te réponds très vite, et un e-mail de confirmation vient de t'être envoyé.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="link-draw tap text-sm text-background/80"
+        >
+          Envoyer un autre message
+        </button>
+      </motion.div>
+    );
+  }
 
   return (
     <form
@@ -158,11 +183,13 @@ export function ContactForm() {
           aria-live="polite"
           className="text-sm text-background/80"
         >
-          {status === "sent" && "Message envoyé, merci ! Je te réponds vite."}
-          {status === "error" &&
-            "L'envoi a échoué. Réessaie, ou écris-moi directement par email."}
-          {status === "mailto" &&
-            "Ton application mail s'ouvre avec le message pré-rempli."}
+          {status === "sending" && "Envoi en cours…"}
+          {status === "error" && (
+            <span className="inline-flex items-center gap-2 text-rose-200">
+              <AlertCircle className="size-4 shrink-0" aria-hidden />
+              L'envoi a échoué. Réessaie dans un instant.
+            </span>
+          )}
         </p>
       </div>
     </form>

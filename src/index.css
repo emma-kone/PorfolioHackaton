@@ -201,5 +201,7 @@
     line-height: 1.2;
     text-align: center;
     white-space: normal;
+    /* Fin contour : une pastille noire (Cursor, GitHub) reste visible sur une carte sombre. */
+    box-shadow: 0 0 0 1px var(--border);
   }
 }

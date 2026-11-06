@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import { Butterflies } from "@/components/ui/butterflies"
+import { Scrollbar } from "@/components/ui/scrollbar"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
 import { Preloader } from "@/components/layout/preloader"
@@ -11,8 +12,11 @@ import { Hero } from "@/components/sections/hero"
 import { Process } from "@/components/sections/process"
 import { Projects } from "@/components/sections/projects"
 import { Skills } from "@/components/sections/skills"
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll"
 
 export default function App() {
+  useSmoothScroll()
+
   // Chaque actualisation repart du début : préchargement, puis haut de page.
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual"
@@ -44,6 +48,7 @@ export default function App() {
         Aller au contenu
       </a>
       {loaded && <Butterflies />}
+      {loaded && <Scrollbar />}
       <Header />
       <main id="contenu" className="relative z-10">
         <Hero ready={loaded} />

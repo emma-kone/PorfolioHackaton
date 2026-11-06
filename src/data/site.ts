@@ -24,7 +24,7 @@ export const site = {
   /** Mots qui défilent dans « Je transforme une idée en … ». */
   rotating: ["interface", "expérience", "identité visuelle", "interaction"],
   email: EMAIL,
-  /** À REMPLACER : dépose ton CV en PDF dans /public sous ce nom (ou change le chemin). */
+  /** CV en PDF : public/cv-manou-dev.pdf (remplace le fichier pour le mettre à jour). */
   cv: "/cv-manou-dev.pdf",
   /** Photo de profil : src/assets/images/profile.jpeg (remplace le fichier pour la changer). */
   photo: profilePhoto,
@@ -37,10 +37,15 @@ export const site = {
     ],
   },
   socials: [
-    { id: "github", label: "GitHub", handle: "Code & projets", href: "https://github.com/", brand: "github" },
-    { id: "linkedin", label: "LinkedIn", handle: "Parcours pro", href: "https://www.linkedin.com/", brand: "linkedin" },
-    { id: "instagram", label: "Instagram", handle: "Coulisses", href: "https://www.instagram.com/", brand: "instagram" },
-    { id: "whatsapp", label: "WhatsApp", handle: "Écrire directement", href: "https://wa.me/", brand: "whatsapp" },
+    { id: "github", label: "GitHub", handle: "@emma-kone", href: "https://github.com/emma-kone", brand: "github" },
+    {
+      id: "linkedin",
+      label: "LinkedIn",
+      handle: "Kignelman Grâce Emmanuella Koné",
+      href: "https://www.linkedin.com/in/kignelman-gr%C3%A2ce-emmanuella-kon%C3%A9-976b0b37b/",
+      brand: "linkedin",
+    },
+    { id: "whatsapp", label: "WhatsApp", handle: "+225 07 13 77 73 18", href: "https://wa.me/2250713777318", brand: "whatsapp" },
     { id: "email", label: "Email", handle: EMAIL, href: `mailto:${EMAIL}`, brand: "mail" },
   ] satisfies Social[],
 } as const

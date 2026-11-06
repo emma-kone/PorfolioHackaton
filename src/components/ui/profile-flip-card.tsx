@@ -1,6 +1,6 @@
 import { useRef, useState, type MouseEvent } from "react"
 import { motion, useReducedMotion } from "framer-motion"
-import { ArrowUpRight, RotateCw, Undo2 } from "lucide-react"
+import { ArrowUpRight, Undo2 } from "lucide-react"
 import { UserCursorArea } from "@/components/ui/user-cursor"
 import { SocialIcon, brandColor } from "@/components/ui/social-icon"
 import { useMediaQuery } from "@/hooks/use-media-query"
@@ -83,10 +83,6 @@ export function ProfileFlipCard({ photo, photoAlt, name, role, socials, cursorLa
                 <span>
                   <span className="display block text-3xl">{name}</span>
                   <span className="mt-1 block text-sm text-white/80">{role}</span>
-                </span>
-                <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-white/35 bg-black/30 px-3 py-1.5 text-xs backdrop-blur-sm">
-                  <RotateCw className="size-3.5 transition-transform duration-500 group-hover:rotate-180" aria-hidden />
-                  {touch ? "Touche pour retourner" : "Retourner"}
                 </span>
               </span>
             </button>

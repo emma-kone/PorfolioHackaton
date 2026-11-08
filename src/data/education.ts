@@ -3,7 +3,10 @@ export type Diploma = {
   period: string
   title: string
   short: string
+  /** Nom (ou sigle) de l'école, mis en avant sur la carte. */
   school?: string
+  /** Nom complet de l'école, affiché sous le sigle. */
+  schoolFull?: string
   place?: string
   /** true = formation en cours. */
   current?: boolean
@@ -12,10 +15,23 @@ export type Diploma = {
 /** ✎ Diplômes et certifications. Ajoute une entrée dès qu'un nouveau titre est obtenu. */
 export const diplomas: Diploma[] = [
   {
+    id: "formatrice-club-info",
+    period: "En cours",
+    title: "Formatrice frontend & web design",
+    short: "Club informatique · Développement web",
+    school: "ESATIC",
+    schoolFull: "École Supérieure Africaine des Technologies de l'Information et de la Communication",
+    place: "Abidjan, Côte d'Ivoire",
+    current: true,
+  },
+  {
     id: "dasi",
     period: "En cours",
     title: "Licence 3 — Développement d'Applications et Systèmes d'Information",
     short: "DASI",
+    school: "ESATIC",
+    schoolFull: "École Supérieure Africaine des Technologies de l'Information et de la Communication",
+    place: "Abidjan, Côte d'Ivoire",
     current: true,
   },
   {

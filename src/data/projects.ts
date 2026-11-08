@@ -21,7 +21,7 @@ export type Project = {
   /** Texte du bouton du lien (défaut : « Voir le projet »). */
   urlLabel?: string
   github?: string
-  /** Mention affichée sur la fiche (ex. « Projet abandonné », « Concept »). */
+  /** Mention affichée sur la fiche (ex. « Projet entrepreneurial », « Concept »). */
   status?: string
 }
 
@@ -50,7 +50,7 @@ export const categories: ProjectCategory[] = [
         id: "avicoo",
         title: "Avicoo",
         kind: "Plateforme e-commerce",
-        status: "Projet abandonné",
+        status: "Projet entrepreneurial",
         summary:
           "Plateforme destinée aux fermiers qui possèdent des poulaillers : ils vendent leurs œufs au prix d'usine, directement à des grossistes, semi-grossistes ou à des clients particuliers qui souhaitent commander quelques plaquettes.",
         objective:

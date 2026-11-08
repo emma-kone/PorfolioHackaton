@@ -5,6 +5,8 @@ import {
   useScroll,
   useSpring,
 } from "framer-motion";
+import { GraduationCap } from "lucide-react";
+import { Reveal } from "@/components/ui/reveal";
 import { SectionHead } from "@/components/ui/section-head";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
@@ -198,26 +200,46 @@ export function Experience() {
           <div className="lg:col-span-7">
             <p className="label">Formation</p>
             <ol className="mt-4 grid list-none gap-4">
-              {diplomas.map((d) => (
-                <li key={d.id} className="rounded-[1.5rem] bg-card p-6 md:p-8">
-                  <p className="label flex items-center gap-2 !text-accent tabular-nums">
-                    {d.period}
-                    {d.current && (
-                      <span
-                        className="size-1.5 animate-pulse rounded-full bg-accent"
-                        aria-label="En cours"
-                      />
-                    )}
-                  </p>
-                  <p className="display mt-3 text-xl !leading-snug sm:text-2xl">
-                    {d.title}
-                  </p>
-                  <p className="mt-1 text-sm font-medium">{d.short}</p>
-                  {(d.school || d.place) && (
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {[d.school, d.place].filter(Boolean).join(" · ")}
+              {diplomas.map((d, i) => (
+                <li key={d.id}>
+                  <Reveal
+                    delay={i * 0.08}
+                    className="rounded-[1.5rem] bg-card p-6 md:p-8"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <p className="label flex items-center gap-2 !text-accent tabular-nums">
+                        {d.period}
+                        {d.current && (
+                          <span
+                            className="size-1.5 animate-pulse rounded-full bg-accent"
+                            aria-label="En cours"
+                          />
+                        )}
+                      </p>
+                      {d.school && (
+                        <p className="inline-flex items-center gap-2 rounded-full bg-accent px-3.5 py-1.5 text-sm font-semibold tracking-wide text-accent-foreground">
+                          <GraduationCap className="size-4" aria-hidden />
+                          {d.school}
+                        </p>
+                      )}
+                    </div>
+                    <p className="display mt-4 text-xl !leading-snug sm:text-2xl">
+                      {d.title}
                     </p>
-                  )}
+                    <p className="mt-1 text-sm font-medium">{d.short}</p>
+                    {(d.schoolFull || d.place) && (
+                      <div className="mt-4 border-t border-border pt-4 text-sm">
+                        {d.schoolFull && (
+                          <p className="font-medium">{d.schoolFull}</p>
+                        )}
+                        {d.place && (
+                          <p className="mt-0.5 text-muted-foreground">
+                            {d.place}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Reveal>
                 </li>
               ))}
             </ol>

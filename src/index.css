@@ -47,6 +47,18 @@
 }
 
 @layer base {
+  /* La barre de défilement du navigateur est masquée sur la page : une barre maison la remplace
+     (src/components/ui/scrollbar.tsx). Les zones internes (fiche projet…) gardent une barre fine aux couleurs du site. */
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--accent) 55%, transparent) transparent;
+  }
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
@@ -204,4 +216,10 @@
     /* Fin contour : une pastille noire (Cursor, GitHub) reste visible sur une carte sombre. */
     box-shadow: 0 0 0 1px var(--border);
   }
+}
+
+/* Curseur personnalisé actif : le curseur natif disparaît, y compris sur les liens et boutons. */
+html.dot-cursor-on,
+html.dot-cursor-on * {
+  cursor: none !important;
 }

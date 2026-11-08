@@ -57,6 +57,7 @@ export function ProjectDetail({ project, category, onClose }: { project: Project
         ref={panel}
         role="dialog"
         aria-modal="true"
+        data-lenis-prevent
         aria-labelledby="project-title"
         className="absolute inset-x-0 bottom-0 top-0 overflow-y-auto overscroll-contain bg-background md:top-10 md:rounded-t-[2rem]"
         initial={reduced ? false : { y: "100%" }}

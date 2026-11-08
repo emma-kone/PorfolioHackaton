@@ -1,4 +1,4 @@
-import { siInstagram, siWhatsapp } from "simple-icons"
+import { siWhatsapp } from "simple-icons"
 import { luminance } from "@/lib/utils"
 
 /**
@@ -49,17 +49,6 @@ const dev = (name: string) => {
 export const logos = {
   github: { id: "github", name: "GitHub", category: "social", color: "#181717", href: "https://github.com", invertOnDark: true, source: "devicon", file: dev("github") },
   linkedin: { id: "linkedin", name: "LinkedIn", category: "social", color: "#0A66C2", href: "https://www.linkedin.com", source: "devicon", file: dev("linkedin") },
-  instagram: {
-    id: "instagram",
-    name: "Instagram",
-    category: "social",
-    color: "#E4405F",
-    secondary: ["#FED576", "#F47133", "#BC3081", "#4C63D2"],
-    href: "https://www.instagram.com",
-    source: "path",
-    path: siInstagram.path,
-    gradient: { stops: [["0", "#FED576"], ["0.26", "#F47133"], ["0.61", "#BC3081"], ["1", "#4C63D2"]] },
-  },
   whatsapp: { id: "whatsapp", name: "WhatsApp", category: "social", color: "#25D366", href: "https://www.whatsapp.com", source: "path", path: siWhatsapp.path },
 
   html: { id: "html", name: "HTML5", category: "technology", color: "#E34F26", href: "https://html.spec.whatwg.org", source: "devicon", file: dev("html5") },

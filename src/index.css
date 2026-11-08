@@ -217,3 +217,9 @@
     box-shadow: 0 0 0 1px var(--border);
   }
 }
+
+/* Curseur personnalisé actif : le curseur natif disparaît, y compris sur les liens et boutons. */
+html.dot-cursor-on,
+html.dot-cursor-on * {
+  cursor: none !important;
+}

@@ -106,6 +106,7 @@ export function UserCursorArea({
   return (
     <div
       ref={host}
+      data-cursor={active ? "hide" : undefined}
       className={cn("relative", active && "cursor-none", className)}
       style={style}
       onMouseMove={onMove}

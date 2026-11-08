@@ -34,12 +34,13 @@ export const diplomas: Diploma[] = [
   },
   {
     id: "formatrice-club-info",
-    period: "Club informatique",
+    period: "En cours",
     title: "Formatrice frontend & web design",
-    short: "Développement web",
+    short: "Club informatique · Développement web",
     school: "ESATIC",
     schoolFull: "École Supérieure Africaine des Technologies de l'Information et de la Communication",
     place: "Abidjan, Côte d'Ivoire",
+    current: true,
   },
 ]
 

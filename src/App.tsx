@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import { Butterflies } from "@/components/ui/butterflies"
 import { Scrollbar } from "@/components/ui/scrollbar"
+import { DotCursor } from "@/components/ui/dot-cursor"
 import { Footer } from "@/components/layout/footer"
 import { Header } from "@/components/layout/header"
 import { Preloader } from "@/components/layout/preloader"
@@ -49,6 +50,7 @@ export default function App() {
       </a>
       {loaded && <Butterflies />}
       {loaded && <Scrollbar />}
+      <DotCursor />
       <Header />
       <main id="contenu" className="relative z-10">
         <Hero ready={loaded} />

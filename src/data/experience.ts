@@ -30,4 +30,11 @@ export const experiences: Experience[] = [
     company: "CIACEMS",
     companyFull: "Cabinet d'Ingénierie Avancée et de Conception d'Environnements Multiservices Sécurisés",
   },
+  {
+    id: "club-info-esatic",
+    period: "Club informatique",
+    role: "Formatrice frontend & web design",
+    company: "Développement web · ESATIC",
+    side: "above", // en bas du parcours : sous le chemin, le texte serait coupé par l'écran
+  },
 ]

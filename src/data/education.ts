@@ -32,6 +32,15 @@ export const diplomas: Diploma[] = [
     school: "Pigier",
     place: "Yamoussoukro, Côte d'Ivoire",
   },
+  {
+    id: "formatrice-club-info",
+    period: "Club informatique",
+    title: "Formatrice frontend & web design",
+    short: "Développement web",
+    school: "ESATIC",
+    schoolFull: "École Supérieure Africaine des Technologies de l'Information et de la Communication",
+    place: "Abidjan, Côte d'Ivoire",
+  },
 ]
 
 export type Certification = { id: string; period: string; title: string; issuer?: string }

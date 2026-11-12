@@ -519,7 +519,7 @@ const FRONT_PATH =
   (FRONT_H - 22) +
   "Z"
 
-const MAX_VISIBLE = 4
+const MAX_VISIBLE = 6
 
 const SAMPLE_FILES: FolderFile[] = [
   { name: "Cover — final", meta: "PNG · 4.8 MB", art: "ember" },
@@ -1041,6 +1041,27 @@ canvas.gf-art[data-ready] { opacity: 1; filter: none; }
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 0 0 .5px rgba(0, 0, 0, .1), 0 22px 40px -12px rgba(10, 12, 20, .42);
   transition-delay: 0s;
 }
+/* the hovered (or focused) file comes to the front of the stack, rises clear of
+   its neighbours and gets a ring, while the others step back: it is always
+   whole and obvious to click, however many files the folder holds */
+.gf-root .gf-sheet:hover,
+.gf-root .gf-sheet:focus-visible {
+  z-index: 40 !important;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .95), 0 0 0 4px var(--accent, #6d3fe0), 0 26px 44px -12px rgba(10, 12, 20, .5);
+  transition-delay: 0s;
+}
+.gf-root:hover .gf-sheet:hover {
+  transform:
+    translate(calc(var(--gf-jx) + var(--gf-slot) * var(--gf-spread)), calc(var(--gf-lift) + var(--gf-depth) * var(--gf-stack) * -1 - 26px))
+    rotate(0deg) scale(1.03);
+}
+.gf-root[data-open] .gf-sheet:hover,
+.gf-root[data-open] .gf-sheet:focus-visible {
+  transform:
+    translate(calc(var(--gf-jx) + var(--gf-slot) * var(--gf-spread)), calc(var(--gf-lift) + var(--gf-depth) * var(--gf-stack) * -1 - 30px))
+    rotate(0deg) scale(1.06);
+}
+.gf-files:has(.gf-sheet:hover) .gf-sheet:not(:hover) { opacity: .55; }
 .gf-sheet:focus-visible { outline: 2px solid #4c8dff; outline-offset: 2px; }
 .gf-sheet-art {
   position: absolute;

@@ -4,6 +4,7 @@ import donDeSoi from "@/assets/images/projects/don-de-soi.webp"
 import ons from "@/assets/images/projects/ons.webp"
 import yagaz from "@/assets/images/projects/yagaz.jpg"
 import airCi from "@/assets/images/projects/air-cote-divoire.webp"
+import niala from "@/assets/images/projects/niala.webp"
 import type { ArtPreset } from "@/components/ui/glass-folder-cards"
 
 export type Project = {
@@ -37,7 +38,7 @@ export type ProjectCategory = {
 const WEB_TECH = ["Vue.js", "HTML", "CSS", "TypeScript"]
 const WEB_ROLE = "Web designer et développeuse frontend."
 
-/** ✎ Un dossier affiche au maximum ses 4 derniers projets. */
+/** ✎ Un dossier affiche au maximum ses 6 derniers projets (MAX_VISIBLE dans glass-folder-cards). */
 export const categories: ProjectCategory[] = [
   {
     id: "web",
@@ -97,6 +98,19 @@ export const categories: ProjectCategory[] = [
         tech: WEB_TECH,
         screenshots: [ons],
         url: "https://ons.ms-sigs.org/",
+      },
+      {
+        id: "niala",
+        title: "Niala",
+        kind: "Plateforme d'apprentissage",
+        summary:
+          "Plateforme d'apprentissage pour étudiants, assistée par IA : on y range et lit ses cours, on prend des notes, on s'exerce (exercices générés à partir d'un cours, laboratoires de code et de SQL) avec indices et corrections, et on suit sa progression notion par notion.",
+        objective:
+          "Réunir au même endroit tout ce dont un étudiant a besoin pour réviser, et l'aider à mesurer honnêtement ce qu'il maîtrise vraiment.",
+        role: "Conception et développement de la plateforme.",
+        tech: ["Next.js", "React", "TypeScript", "Prisma", "PostgreSQL", "IA"],
+        screenshots: [niala],
+        url: "https://niala.vercel.app/",
       },
     ],
   },

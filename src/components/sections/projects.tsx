@@ -4,6 +4,8 @@ import GlassFolder, { type ArtPreset, type FolderFile } from "@/components/ui/gl
 import { MaskLine, Reveal } from "@/components/ui/reveal"
 import { SectionHead } from "@/components/ui/section-head"
 import { ProjectDetail } from "@/components/sections/project-detail"
+import { FolderShowcase } from "@/components/sections/folder-showcase"
+import { UserCursorArea } from "@/components/ui/user-cursor"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { useTheme } from "@/hooks/use-theme"
 import { categories, type Project, type ProjectCategory } from "@/data/projects"
@@ -26,7 +28,9 @@ export function Projects() {
   const narrow = useMediaQuery("(max-width: 389px)")
   const [openId, setOpenId] = useState<string | null>(null)
   const [selected, setSelected] = useState<{ project: Project; category: string } | null>(null)
+  const [showcase, setShowcase] = useState<ProjectCategory | null>(null)
   const close = useCallback(() => setSelected(null), [])
+  const closeShowcase = useCallback(() => setShowcase(null), [])
 
   const files = useMemo(() => Object.fromEntries(categories.map((c) => [c.id, toFiles(c)])), [])
 
@@ -44,7 +48,7 @@ export function Projects() {
           </h2>
           <Reveal delay={0.15} className="lg:col-span-4 lg:col-start-9 lg:self-end">
             <p className="text-muted-foreground">
-              Survole un dossier pour le voir bouger, clique pour l'ouvrir, puis choisis un projet pour lire sa fiche.
+              Survole un dossier pour l'ouvrir, clique dessus pour parcourir tous ses projets, ou choisis directement un projet pour lire sa fiche.
             </p>
           </Reveal>
         </div>
@@ -52,26 +56,41 @@ export function Projects() {
         <ul className="mt-12 grid justify-items-center gap-x-6 gap-y-10 md:mt-24 md:gap-y-24 md:grid-cols-2 xl:grid-cols-3 xl:gap-x-10">
           {categories.map((cat, i) => (
             <li key={cat.id} className={`flex flex-col items-center pt-14 md:pt-24 ${STAGGER[i % STAGGER.length]}`}>
-              <GlassFolder
-                label={cat.label}
-                meta={`${cat.projects.length} ${cat.projects.length > 1 ? "projets" : "projet"}`}
-                tone={theme === "dark" ? "dark" : "light"}
-                art={cat.art}
-                seed={cat.seed}
-                files={files[cat.id]}
-                action="none"
-                width={narrow ? 300 : 340}
-                appearDelay={i * 140}
-                open={openId === cat.id}
-                onOpenChange={(o) => setOpenId((cur) => (o ? cat.id : cur === cat.id ? null : cur))}
-                onFileSelect={(_, idx) => setSelected({ project: cat.projects[idx], category: cat.label })}
-              />
+              <UserCursorArea label="Clique moi" clip={false}>
+                <GlassFolder
+                  label={cat.label}
+                  meta={`${cat.projects.length} ${cat.projects.length > 1 ? "projets" : "projet"}`}
+                  tone={theme === "dark" ? "dark" : "light"}
+                  art={cat.art}
+                  seed={cat.seed}
+                  files={files[cat.id]}
+                  action="none"
+                  width={narrow ? 300 : 340}
+                  appearDelay={i * 140}
+                  open={openId === cat.id}
+                  onOpenChange={(o) => setOpenId((cur) => (o ? cat.id : cur === cat.id ? null : cur))}
+                  openOnHover
+                  onActivate={() => setShowcase(cat)}
+                  onFileSelect={(_, idx) => setSelected({ project: cat.projects[idx], category: cat.label })}
+                />
+              </UserCursorArea>
               <p className="mt-6 max-w-[17rem] text-center text-sm text-muted-foreground">{cat.description}</p>
             </li>
           ))}
         </ul>
       </div>
 
+      <AnimatePresence>
+        {showcase && (
+          <FolderShowcase
+            key={showcase.id}
+            category={showcase}
+            covered={!!selected}
+            onOpenProject={(project) => setSelected({ project, category: showcase.label })}
+            onClose={closeShowcase}
+          />
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {selected && <ProjectDetail key={selected.project.id} project={selected.project} category={selected.category} onClose={close} />}
       </AnimatePresence>

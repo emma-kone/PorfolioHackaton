@@ -95,6 +95,13 @@ export type GlassFolderProps = {
   onOpenChange?: (open: boolean) => void
   /** Called when a file is chosen while the folder is open. */
   onFileSelect?: (file: FolderFile, index: number) => void
+  /** Opens while a mouse is over the folder (or a file risen out of it), closes when it leaves. */
+  openOnHover?: boolean
+  /**
+   * A click on the folder itself (not on a file or the key) calls this instead
+   * of toggling it open. Enter / Space on the folder do the same.
+   */
+  onActivate?: () => void
   /** Width in px. Everything else scales with it; the height is 0.96 × width. */
   width?: number
   /** Assemble itself the first time it scrolls into view. */
@@ -544,6 +551,8 @@ export default function GlassFolder({
   defaultOpen = false,
   onOpenChange,
   onFileSelect,
+  openOnHover = false,
+  onActivate,
   width = 340,
   appear = true,
   appearDelay = 0,
@@ -636,6 +645,35 @@ export default function GlassFolder({
     }
   }, [])
 
+  // ---- hover opens: a mouse over the folder, or over a file risen out of it.
+  // pointerleave follows the DOM, so the files above the box still count.
+  React.useEffect(() => {
+    const el = rootRef.current
+    if (!el || !openOnHover) return
+    const enter = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") setOpen(true)
+    }
+    const leave = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") setOpen(false)
+    }
+    // The keyboard gets the same: focus inside opens, focus leaving closes,
+    // so the files can be tabbed to without a click.
+    const focusIn = () => setOpen(true)
+    const focusOut = (e: FocusEvent) => {
+      if (!el.contains(e.relatedTarget as Node | null)) setOpen(false)
+    }
+    el.addEventListener("pointerenter", enter)
+    el.addEventListener("pointerleave", leave)
+    el.addEventListener("focusin", focusIn)
+    el.addEventListener("focusout", focusOut)
+    return () => {
+      el.removeEventListener("pointerenter", enter)
+      el.removeEventListener("pointerleave", leave)
+      el.removeEventListener("focusin", focusIn)
+      el.removeEventListener("focusout", focusOut)
+    }
+  }, [openOnHover, setOpen])
+
   // ---- closed files are out of the tab order ------------------------------
   React.useEffect(() => {
     filesRef.current?.toggleAttribute("inert", !open)
@@ -717,7 +755,18 @@ export default function GlassFolder({
       data-open={open || undefined}
       data-entered={entered || undefined}
       data-place={labelPlacement}
+      data-activate={onActivate ? "" : undefined}
       style={{ width, height: (H + HEADROOM) * k, ...style }}
+      onClick={
+        onActivate
+          ? (e) => {
+              // Files, the key and its menu keep their own clicks.
+              if ((e.target as Element).closest(".gf-sheet, .gf-key, .gf-menu")) return
+              setMenuOpen(false)
+              onActivate()
+            }
+          : undefined
+      }
     >
       <style>{GF_CSS}</style>
       <div className="gf-stage" style={{ transform: "translateY(" + HEADROOM * k + "px) scale(" + k + ")" }}>
@@ -759,12 +808,21 @@ export default function GlassFolder({
               ref={hitRef}
               type="button"
               className="gf-hit"
-              aria-expanded={open}
-              aria-label={(open ? "Close " : "Open ") + label + ", " + count + (count === 1 ? " item" : " items")}
-              onClick={() => {
-                setMenuOpen(false)
-                setOpen(!open)
-              }}
+              aria-expanded={onActivate ? undefined : open}
+              aria-label={
+                onActivate
+                  ? label + ", " + count + (count === 1 ? " item" : " items")
+                  : (open ? "Close " : "Open ") + label + ", " + count + (count === 1 ? " item" : " items")
+              }
+              onClick={
+                // With onActivate the click bubbles to the root, which handles it.
+                onActivate
+                  ? undefined
+                  : () => {
+                      setMenuOpen(false)
+                      setOpen(!open)
+                    }
+              }
             />
             <div className="gf-label">
               <span className="gf-title">{label}</span>
@@ -923,6 +981,7 @@ const GF_CSS = `
 }
 .gf-root[data-tone="dark"] { --gf-ink: #f5f5f7; --gf-ink-soft: rgba(245, 245, 247, .58); }
 .gf-root:hover, .gf-root:focus-within { --gf-hinge: -11deg; --gf-lift: -34px; --gf-spread: 8px; --gf-fan: 1.4deg; --gf-stack: 10px; }
+.gf-root[data-activate] .gf-back { cursor: pointer; }
 .gf-root[data-open] { --gf-hinge: -24deg; --gf-lift: -96px; --gf-spread: 40px; --gf-fan: 5deg; --gf-stack: 30px; }
 
 .gf-stage {

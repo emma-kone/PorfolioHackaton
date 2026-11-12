@@ -19,6 +19,11 @@ export interface UserCursorAreaProps {
   pressScale?: number
   /** Vrai = curseur natif rétabli, rien n'est affiché. */
   disabled?: boolean
+  /**
+   * Vrai (défaut) = curseur rogné à la zone. Faux = il peut en sortir, pour suivre
+   * un contenu qui déborde (ex. les fiches qui sortent d'un dossier ouvert).
+   */
+  clip?: boolean
   className?: string
   style?: CSSProperties
   children: ReactNode
@@ -35,6 +40,7 @@ export function UserCursorArea({
   tiltStrength = 25,
   pressScale = 0.92,
   disabled = false,
+  clip = true,
   className,
   style,
   children,
@@ -121,7 +127,10 @@ export function UserCursorArea({
     >
       {children}
       {active && (
-        <div aria-hidden className="pointer-events-none absolute inset-0 z-50 overflow-hidden rounded-[inherit]">
+        <div
+          aria-hidden
+          className={cn("pointer-events-none absolute inset-0 z-50", clip && "overflow-hidden rounded-[inherit]")}
+        >
           <motion.div
             className="absolute left-0 top-0 select-none whitespace-nowrap rounded-full font-semibold"
             style={{

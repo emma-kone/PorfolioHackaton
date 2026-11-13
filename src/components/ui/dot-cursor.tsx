@@ -61,7 +61,30 @@ function withAlpha(input: string, alpha: number) {
  *  data-cursor / data-cursor="hover" → agrandissement anneau
  *  data-cursor="link"                → soulignement (mode lien)
  *  data-cursor="hide"                → masque le curseur
+ *  data-cursor="native"              → masque le curseur ET rend le curseur du navigateur
+ *
+ * Le curseur du navigateur revient aussi tout seul sur une barre de défilement
+ * (la barre maison de la page, ou la barre native d'une zone qui défile), et tant
+ * que <html> porte `data-native-cursor` (pouce de la barre en cours de glisser) :
+ * une barre se saisit mal sous un gros point à traînée.
  */
+const NATIVE_SELECTOR = '[data-cursor="native"]';
+
+/** Vrai si le point (x, y) est sur la barre de défilement native de `el`. */
+function overNativeScrollbar(el: Element | null, x: number, y: number) {
+  if (!(el instanceof HTMLElement) || el === document.documentElement || el === document.body) return false;
+  const barV = el.offsetWidth - el.clientWidth - el.clientLeft * 2;
+  const barH = el.offsetHeight - el.clientHeight - el.clientTop * 2;
+  if (barV < 2 && barH < 2) return false;
+  const r = el.getBoundingClientRect();
+  // La barre verticale est à droite du contenu (à gauche en écriture RTL), l'horizontale dessous.
+  const rtl = getComputedStyle(el).direction === "rtl";
+  const onV =
+    barV >= 2 &&
+    (rtl ? x <= r.left + el.clientLeft + barV : x >= r.left + el.clientLeft + el.clientWidth);
+  const onH = barH >= 2 && y >= r.top + el.clientTop + el.clientHeight;
+  return onV || onH;
+}
 const HIDE_SELECTOR =
   '[data-cursor="hide"],[aria-label~="trail{hide}"],[data-framer-name~="trail{hide}"]';
 const LINK_SELECTOR =
@@ -160,6 +183,7 @@ function DotCursorBase(props: Props) {
 
     let hitDirty = true;
     let overHide = false;
+    let overNative = false;
     let overRing = false;
     let linkEl: Element | null = null;
 
@@ -217,7 +241,8 @@ function DotCursorBase(props: Props) {
       hitY = e.clientY;
       inside = true;
       hitDirty = true;
-      hideNativeCursor(true);
+      // Sur une barre de défilement, le curseur du navigateur reste affiché.
+      if (!overNative) hideNativeCursor(true);
     };
 
     const onWindowLeave = () => {
@@ -254,7 +279,12 @@ function DotCursorBase(props: Props) {
 
       if (hitDirty) {
         const el = document.elementFromPoint(hitX, hitY);
-        overHide = !!el?.closest(HIDE_SELECTOR);
+        overNative =
+          document.documentElement.hasAttribute("data-native-cursor") ||
+          !!el?.closest(NATIVE_SELECTOR) ||
+          overNativeScrollbar(el, hitX, hitY);
+        overHide = overNative || !!el?.closest(HIDE_SELECTOR);
+        hideNativeCursor(inside && !overNative);
         linkEl = el?.closest(LINK_SELECTOR) ?? null;
         overRing = !!el?.closest(RING_SELECTOR);
         hitDirty = false;

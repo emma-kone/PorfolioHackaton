@@ -261,6 +261,16 @@ export function Experience() {
                         {c.issuer}
                       </p>
                     )}
+                    {c.href && (
+                      <a
+                        href={c.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex text-sm underline underline-offset-4 transition-colors hover:text-accent"
+                      >
+                        Voir le certificat
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>

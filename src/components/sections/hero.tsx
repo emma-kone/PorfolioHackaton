@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import { FileText } from "lucide-react"
+import { Download } from "lucide-react"
 import { motion, useReducedMotion } from "framer-motion"
 import ArrowFillButton from "@/components/ui/arrow-fill-button"
 import { Typewriter } from "@/components/ui/typewriter"
@@ -72,12 +72,11 @@ export function Hero({ ready }: { ready: boolean }) {
               </a>
               <a
                 href={site.cv}
-                target="_blank"
-                rel="noopener noreferrer"
+                download={site.cvFileName}
                 className="tap inline-flex items-center gap-2 rounded-full bg-muted px-6 text-base transition-colors hover:bg-foreground hover:text-background"
               >
-                <FileText className="size-4" aria-hidden />
-                Voir mon CV
+                <Download className="size-4" aria-hidden />
+                Télécharger mon CV
               </a>
             </div>
             <span className="label hidden sm:block" aria-hidden>

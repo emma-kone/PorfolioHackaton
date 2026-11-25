@@ -24,8 +24,10 @@ export const site = {
   /** Mots qui défilent dans « Je transforme une idée en … ». */
   rotating: ["interface", "expérience", "identité visuelle", "interaction"],
   email: EMAIL,
-  /** CV en PDF : public/cv-manou-dev.pdf (remplace le fichier pour le mettre à jour). */
+  /** CV en PDF : public/cv-manou-dev.pdf (remplace le fichier pour le mettre à jour). Le bouton du hero le télécharge. */
   cv: "/cv-manou-dev.pdf",
+  /** Nom du fichier proposé au téléchargement du CV. */
+  cvFileName: "CV-Kone-Kignelman-Grace-Emmanuella.pdf",
   /** Photo de profil : src/assets/images/profile.jpeg (remplace le fichier pour la changer). */
   photo: profilePhoto,
   photoAlt: "Portrait de Manou Dev",

@@ -44,7 +44,22 @@ export const diplomas: Diploma[] = [
   },
 ]
 
-export type Certification = { id: string; period: string; title: string; issuer?: string }
+export type Certification = {
+  id: string
+  period: string
+  title: string
+  issuer?: string
+  /** Lien vers le certificat (ex. un PDF dans public/certificats). */
+  href?: string
+}
 
 /** ✎ Ajoute ici tes certifications (ex. { id: "x", period: "2026", title: "…", issuer: "…" }). */
-export const certifications: Certification[] = []
+export const certifications: Certification[] = [
+  {
+    id: "bases-ia",
+    period: "Août 2026",
+    title: "Les bases de l'IA",
+    issuer: "MTN Skills Academy · Microsoft Learn",
+    href: "/certificats/les-bases-de-l-ia.pdf",
+  },
+]
